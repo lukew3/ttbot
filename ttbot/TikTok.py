@@ -117,6 +117,20 @@ class TikTok:
             # return created comment id if comment added successfully
             return response.json()["comment"]["cid"]
 
+    def get_recommended(self):
+        """ Get current users recommended list """
+        response = requests.get("https://m.tiktok.com/api/recommend/item_list/",
+            params={"aid": 1988, "count": 30},
+            #params={"aid": 1988, "count": 30, "from_page": "fyp"},
+            cookies=self.cookies)
+        return response.json()["itemList"]
+
+    """ Functions below this are nonfunctional """
+
+    def get_direct_link(self, aweme_id):
+        response = requests.get("")
+        pass
+
     def reply_to_comment(self, reply_to_cid, aweme_id, text):
         """ NONFUNCTIONAL; Post a comment to video with id aweme_id and content of text """
         params = {"aid": "1988", "text": str(text), "aweme_id": str(aweme_id), "reply_to_reply_id": str(reply_to_cid)}
@@ -129,3 +143,74 @@ class TikTok:
         if response.json()["status_msg"] == "Comment sent successfully":
             # return created comment id if comment added successfully
             return response.json()["comment"]["cid"]
+
+    """ Functions below this are blocked; response.content is b'blocked' """
+
+    def follow_user(self, user_id):
+        print(user_id)
+        params = {"aid": "1988", "user_id": int(user_id), "type": 1, "from": 19, "channel_id": 3, "from_pre": 0, "fromWeb": 1, "history_len": 8}
+        response = requests.post("https://m.tiktok.com/api/commit/follow/user/",
+            params=params,
+            cookies=self.cookies)
+        print(response.content)
+        #print(response.json())
+        return response.json()
+
+    def unfollow_user(self, user_id):
+        print(user_id)
+        params = {"aid": "1988", "user_id": int(user_id), "type": 0, "from": 19, "channel_id": 3, "from_pre": 0, "fromWeb": 1, "history_len": 8}
+        response = requests.post("https://m.tiktok.com/api/commit/follow/user/",
+            params=params,
+            cookies=self.cookies)
+        print(response)
+        #print(response.json())
+        return response.json()
+
+    def like_video(self, aweme_id):
+        params = {
+			"aid": "1988",
+			"app_name": "tiktok_web",
+			"device_platform": "web_pc",
+			"device_id": "6917070983203554822",
+			"region": "US",
+			"priority_region": "US",
+			"os": "linux",
+			"referer": "",
+			"root_referer": "",
+			"cookie_enabled": "true",
+			"screen_width": "1920",
+			"screen_height": "1080",
+			"browser_language": "en-US",
+			"browser_platform": "Linux x86_64",
+			"browser_name": "Mozilla",
+			"browser_version": "5.0 (X11)",
+			"browser_online": "true",
+			"verifyFp": "verify_ks0nmaje_sA7k2Sag_Jf1C_4cqm_8Gif_PT68xdKccR2P",
+			"app_language": "en",
+			"timezone_name": "America/New_York",
+			"is_page_visible": "true",
+			"focus_state": "true",
+			"is_fullscreen": "false",
+			"history_len": "10",
+			"aweme_id": "6992652869715430662",
+			"type": "1",
+			"channel_id": "3",
+			"msToken": "FD4GMcmbKhcMZih0xNojNI7oriEwoziTRtd9UKkqFS4MUKuV2xPtA2hXmWDvSqzMkFjAAs9_-Znk7luZBjZehl0zRedu-FQUFa3bed_f4q8630Ek3tb1cMuzXXFfMjkcEnKi",
+			"X-Bogus": "DFSzsIVuPCE4iL7KSPoVL47r4IX2",
+			"_signature": "_02B4Z6wo00001xUIiNgAAIDBwbdPvyrqcksVCYxAAKRZ1c"
+		}
+        response = requests.post("https://m.tiktok.com/api/commit/item/digg/",
+            params=params,#{"aid": 1988, "aweme_id": aweme_id},
+            cookies=self.cookies)
+        print(response.content)
+        print(response.json())
+        return response.json()
+
+    def get_video_comments(self, aweme_id):
+        response = requests.get("https://www.tiktok.com/api/comment/list/",
+            params={"aid": 1988, "aweme_id": aweme_id, "count": 20, "cursor": 0, "current_region": "US"},
+            #params={"aid": 1988, "count": 30, "from_page": "fyp"},
+            cookies=self.cookies)
+        print(response.content)
+        print(response.json())
+        return response.json()

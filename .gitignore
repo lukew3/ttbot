@@ -5,3 +5,5 @@ post_comment_template.py
 test.py
 cookies.json
 /ttbot/notifications.py
+*test.py
+notes.md
