@@ -1,0 +1,6 @@
+*.pyc
+/venv
+/ttbot.egg-info
+post_comment_template.py
+test.py
+cookies.json
