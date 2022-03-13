@@ -1,5 +1,6 @@
 # ttbot
 Unofficial api for TikTok bots
+Currently only capable of getting tiktok notifications.
 
 ## Install
 ```
